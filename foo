@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#">
+   <head>
+      <title>HTML Center</title>
+
+      <link rel=”dns-prefetch” href=”//ssa.datafactory.la”>
+      <link rel=”dns-prefetch” href=”//platform.twitter.com”>
+      <link rel=”dns-prefetch” href=”//connect.facebook.net”>
+
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta charset="utf-8">
+      <style type="text/css">
+        .generalBody{
+            padding: 0;
+            margin: 0;
+        }
+      </style>
+
+      <!-- Compatibilidad para IE < v9 -->
+      <!--[if lt IE 9]>
+       <script src="htmlCenter/assets/js/respond.min.js"></script>
+     <![endif]-->
+   </head>
+   <body class="generalBody">
+      <!-- BEGIN HTML Center code -->
+      <script type="text/javascript">
+     var getParameter = function (name, defaultVar) {
+      /* getParameter - Función para obtener parámetros de la URL. Similar a $_GET["{NOMBRE_VARIABLE}"] en PHP. 
+       *  Parámetros: 
+       *  name (string): Nombre del parámetro que deseo obtener.
+       *  defaultVar (string | boolean | int): Valor por defecto que se quiere que devuelva la función en caso de que el parámetro no exista.
+       */
+      name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+      var regexS = "[\\?&]" + name + "=([^&#]*)";
+      var regex = new RegExp(regexS);
+      var results = regex.exec(window.location.href);
+      if (results === null && typeof defaultVar !== "undefined") {
+        return defaultVar;
+      } else if (results !== null) {
+        if (results[1] === "true") {
+          return true;
+        } else if (results[1] === "false") {
+          return false;
+        } else if (!isNaN(results[1])) {
+          return parseInt(results[1], 10);
+        } else {
+          return results[1];
+        }
+      } else {
+        return;
+      }
+     };
+
+     var preloader = '<style type="text/css">.modulePreloader{\height:30px;width:30px;margin:5px auto;position:relative;-webkit-animation: rotation .6s infinite linear;-moz-animation: rotation .6s infinite linear;-o-animation: rotation .6s infinite linear;animation: rotation .6s infinite linear;border-width:6px;border-style:solid;border-color:#CCC #CCC #000;border-radius:100%; box-sizing:border-box;}\ @-webkit-keyframes rotation {\ from {\ -webkit-transform: rotate(0deg); }\ to {\ -webkit-transform: rotate(359deg); }\ }\ @-moz-keyframes rotation {\ from {\ -moz-transform: rotate(0deg); }\ to {\ -moz-transform: rotate(359deg); }\ }\ @-o-keyframes rotation {\ from {\ -o-transform: rotate(0deg);}\ to {\ -o-transform: rotate(359deg); }\ }\ @keyframes rotation {\ from {\ transform: rotate(0deg); }\ to {\ transform: rotate(359deg);}\ }\ </style><div class="modulePreloader"></div>';
+     var model = getParameter("model", null);
+     var modelSettings = {};
+     // Me fijo si tengo que ponerle un theme al model
+     if (getParameter("theme", false))
+      modelSettings.theme = getParameter("theme");
+
+     // Si no se eligió ningún model aún, pongo el que corresponde para cada deporte
+     if (model === null) {
+      // Deporte default
+      var eventSport = 'futbol';
+      if (getParameter('channel', false)) {
+        eventSport = getParameter('channel').split(".")[1];
+      }
+
+      switch (eventSport) {
+      case 'futbol':
+        model = 'gamecast_v6';
+        break;
+      case 'rugby':
+        model = 'rugby_model';
+        break;
+      default:
+        model = 'gamecast_v6';
+        break;
+      }
+     }
+
+     document.write('<div class="dfMc-Model" data-model=\'{"name": "' + model + '"}\' data-settings=\'' + JSON.stringify(modelSettings) + '\'>' + preloader + '</div>');
+      </script>
+      <script src="htmlCenterApp.js"></script>
+      <!-- END HTML Center code -->
+
+      <script src="htmlCenter/customization/js/mc.googleAnalytics.js"></script>
+   </body>
+</html>
